@@ -7,7 +7,7 @@ namespace sfml_csharp;
 
 public sealed class Game
 {
-    private const float PlayerSpeed = 15.0f;
+    private const float PlayerSpeed = 100.0f;
     private const float TimePerFrameInSeconds = 1.0f / 60.0f;
     
     private readonly RenderWindow _window = new(new VideoMode(640, 480), "SFML Application");
@@ -17,23 +17,17 @@ public sealed class Game
         Position = new Vector2f(100, 100),
     };
 
-    private Texture _texture;
+    private TextureHolder _texture = new();
 
-    private bool _isMovingUp = false;
-    private bool _isMovingDown = false;
-    private bool _isMovingLeft = false;
-    private bool _isMovingRight = false;
+    private bool _isMovingUp;
+    private bool _isMovingDown;
+    private bool _isMovingLeft;
+    private bool _isMovingRight;
 
     public Game()
     {
-        try
-        {
-            _texture = new Texture("Assets/player.png");
-        }
-        catch (LoadingFailedException e)
-        {
-            Console.WriteLine("Error while loading texture: " + e.Message);
-        }
+        _texture.Load(TextureIdEnum.Player, "Assets/player.png");
+        _player.Texture = _texture.Get(TextureIdEnum.Player);
     }
 
     public void Run()
@@ -81,7 +75,6 @@ public sealed class Game
     private void Render()
     {
         _window.Clear(Color.Black);
-        _player.Texture = _texture;
         _window.Draw(_player);
         _window.Display();
     }
