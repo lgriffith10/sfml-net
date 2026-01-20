@@ -17,6 +17,7 @@ public abstract class ResourceHolder<TResource, TIdentifier>
 
         var resource = factory(filename, param);
         _resources.Add(id, resource);
+        Console.WriteLine($"{typeof(TResource).Name}: Resource {id} created.");
     }
 
 
