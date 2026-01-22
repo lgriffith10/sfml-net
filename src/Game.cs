@@ -1,4 +1,4 @@
-using System.Reflection.Metadata;
+using sfml_csharp.Resources;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -9,20 +9,21 @@ public sealed class Game
 {
     private const float PlayerSpeed = 100.0f;
     private const float TimePerFrameInSeconds = 1.0f / 60.0f;
-    
-    private readonly RenderWindow _window = new(new VideoMode(640, 480), "SFML Application");
     private readonly Clock _clock = new();
+
     private readonly CircleShape _player = new(50)
     {
-        Position = new Vector2f(100, 100),
+        Position = new Vector2f(100, 100)
     };
 
-    private TextureHolder _texture = new();
-
-    private bool _isMovingUp;
+    private readonly RenderWindow _window = new(new VideoMode(640, 480), "SFML Application");
     private bool _isMovingDown;
     private bool _isMovingLeft;
     private bool _isMovingRight;
+
+    private bool _isMovingUp;
+
+    private readonly TextureHolder _texture = new();
 
     public Game()
     {
@@ -38,14 +39,14 @@ public sealed class Game
         {
             ProcessEvents();
             timeSinceLastUpdate += _clock.ElapsedTime;
-            
+
             while (timeSinceLastUpdate.AsMilliseconds() > TimePerFrameInSeconds)
             {
                 timeSinceLastUpdate -= _clock.ElapsedTime;
                 ProcessEvents();
                 Update();
             }
-            
+
             Render();
         }
     }
@@ -55,7 +56,7 @@ public sealed class Game
         _window.Closed += (_, _) => _window.Close();
         _window.KeyPressed += (_, e) => HandlePlayerInput(e.Code, true);
         _window.KeyReleased += (_, e) => HandlePlayerInput(e.Code, false);
-        
+
         _window.DispatchEvents();
     }
 
@@ -67,7 +68,7 @@ public sealed class Game
         if (_isMovingDown) movement.Y += 1;
         if (_isMovingRight) movement.X += 1;
         if (_isMovingLeft) movement.X -= 1;
-        
+
         // Sums the two vectors
         _player.Position += movement * TimePerFrameInSeconds * PlayerSpeed;
     }
@@ -95,9 +96,6 @@ public sealed class Game
             case Keyboard.Key.S:
                 _isMovingDown = isPressed;
                 break;
-            default:
-                break;
         }
     }
-    
 }

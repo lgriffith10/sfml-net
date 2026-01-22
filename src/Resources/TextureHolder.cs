@@ -1,6 +1,6 @@
 using SFML.Graphics;
 
-namespace sfml_csharp;
+namespace sfml_csharp.Resources;
 
 public sealed class TextureHolder : ResourceHolder<Texture, TextureIdEnum>
 {
